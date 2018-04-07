@@ -1,0 +1,176 @@
+<html>
+<head>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	<title>Bey Revolution</title>
+	<style type="text/css">
+		.stage{
+			text-align: center;
+		}
+		#controls{
+		    text-align: center;
+		    bottom: 0;
+		    position: fixed;
+		    width: 100%;
+		}
+		.floating,
+		.static{
+			padding: 0 10px;
+		}
+		.floating{
+			position: fixed;
+			flex-direction: column;
+		}
+		#staticLeft,
+		#left{
+			left: 38.2%;
+		}
+		#staticRight,
+		#right{
+			left: 56.9%;
+		}
+		#staticDown,
+		#down{
+			left: 50.7%;
+		}
+		#staticUp,
+		#up{
+			left: 44.5%;
+		} 
+		#myVideo {
+    		position: fixed;
+    		right: 0;
+   		    bottom: 0;
+    		min-width: 100%; 
+    		min-height: 100%;
+        }
+        .score-wrapper{
+        	color:#fff;
+        }
+        .score-wrapper,
+        button{
+        	position: relative;
+        }
+        .overlay{
+        	position: fixed;
+        	top: 0;
+        	width: 100%;
+        }
+        .logo-wrapper{
+
+        }
+        #logo{
+			position: absolute;
+			width: 600px;
+			z-index: 1;
+		    right: 0;
+		    top: -40px;
+        }
+	</style>
+</head>
+<body>
+
+	<video autoplay id="myVideo">
+        <source src="assets/runtheworld.mp4" type="video/mp4">
+    </video>
+
+	<script>
+			var pointers = ['left', 'up', 'down', 'right'];
+			var counter = 0;
+			// Randomizing arrows	
+			function random(){
+				var random_value = pointers[Math.floor(Math.random() * pointers.length)]; // function to return a random pointers value
+				var $arrows = $('<img>', {id: random_value, "class": "floating", "src": "assets/"+ random_value + ".gif"}); // creates an img element using random_value as its id and name of gif
+				$('.stage').append($arrows); // append to stage
+				$arrows.animate({'bottom': '-5px'}, 'slow'); // animates to the bottom
+			}
+			function check(){
+				// console.log($('.floating').css('bottom') );
+				if($('.floating').css('bottom') == '-5px'){
+					$('.floating').remove();
+				}
+
+			}
+			// Counter to spit out one arrow
+			function loopThru(){
+				var count = 0;
+				while (count < 1){ // loops once
+					random(); // Initiates random function
+					count++;
+				}
+			}
+			$(document).ready(function(){
+				$('#start').click(function(){ // Game Begins
+					// Every 1 sec, perform a loopThru function
+					var setInterval = window.setInterval(function(){
+					  loopThru(); 
+					  check();
+					}, 800);
+					$
+					// Reset  
+					$('#reset').click(function(){
+						window.clearInterval(setInterval); //stop doing the interval
+						$('.stage').empty(); // empty the arrows
+						$('.score').html(0);
+					});
+				});
+
+				$(document).keydown(function(e){
+					if(e.keyCode == 38){
+						if($('#up').css('bottom') < '30px'){
+							counter += 10;
+							$('.score').html(counter);
+						}else{
+							counter -= 5;
+							$('.score').html(counter);
+						}
+					} else if(e.keyCode == 40 ){
+						if($('#down').css('bottom') < '30px'){
+							counter += 10;
+							$('.score').html(counter);
+						}else{
+							counter -= 5;
+							$('.score').html(counter);
+						}
+					} else if (e.keyCode == 37){
+						if($('#left').css('bottom') < '30px'){
+							counter += 10;
+							$('.score').html(counter);
+						}else{
+							counter -= 5;
+							$('.score').html(counter);
+						}
+					} else if (e.keyCode == 39){
+						if($('#right').css('bottom') < '30px'){
+							counter += 10;
+							$('.score').html(counter);
+						}else{
+							counter -= 5;
+							$('.score').html(counter);
+						}
+					} else{
+
+					}
+				});
+			});
+		</script>
+	<div class="overlay"> 
+		<div class="logo-wrapper"><img class="" id="logo" src="assets/bey-revolution-logo.png" > </div>
+		<button value='Start' id="start" >
+			Start
+		</button>
+		<button value='Reset' id="reset">
+			Reset
+		</button>
+		<div class="stage">	
+		</div> 
+
+		<div id="controls">
+			<img class="static" id="staticLeft" src="assets/staticLeft.png">
+			<img class="static" id="staticUp" src="assets/staticUp.png">
+			<img class="static" id="staticDown" src="assets/staticDown.png">
+			<img class="static" id="staticRight" src="assets/staticRight.png">
+		</div>
+		<div class="score-wrapper">Score: <span class="score"></span></div>
+	</div>
+</body>
+</html>
